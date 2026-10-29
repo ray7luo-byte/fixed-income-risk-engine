@@ -34,3 +34,5 @@ def test_ytm_roundtrip():
 def test_ytm_par():
     # 平价债的 YTM 等于票息率
     assert abs(ytm_from_price(100, 0.05, 2, 100.0) - 0.05) < 1e-8
+
+    
