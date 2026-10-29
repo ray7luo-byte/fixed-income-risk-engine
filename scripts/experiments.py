@@ -16,3 +16,6 @@ p_up100 = bond_price(100, 0.05, 2, shift_curve(base, 0.01))
 p_dn100 = bond_price(100, 0.05, 2, shift_curve(base, -0.01))
 DV01 = p0 - p_up1
 print("DV01", DV01, "up100", p_up100, "dn100", p_dn100)
+
+from fire.data import fetch_treasury_curve
+print(fetch_treasury_curve())
