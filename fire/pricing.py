@@ -57,3 +57,13 @@ def ytm_from_price(face,coupon_rate,years,price):
         else:
             low = mid
     return (low + high) / 2
+
+def bond_price_from_curve(face, coupon_rate, years, curve):
+    """Price off a Curve object: each cashflow discounted at its own tenor."""
+    price =0
+    cashflow_semi = face * coupon_rate / 2
+    n=int(years*2)
+    for i in range(1,n+1):
+        price=price+cashflow_semi*curve.df(i/2)
+    price=price+face*curve.df(years)
+    return price

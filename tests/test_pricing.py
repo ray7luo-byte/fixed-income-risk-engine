@@ -1,5 +1,5 @@
-from fire.pricing import discount_factor, zero_rate, bond_price, shift_curve,price_from_ytm,ytm_from_price
-
+from fire.pricing import discount_factor, zero_rate, bond_price, shift_curve,price_from_ytm,ytm_from_price,bond_price_from_curve
+from fire.curve import Curve
 def test_discount_factor_annual():
     assert abs(discount_factor(0.05, 2, "annual") - 0.907029) < 1e-6
 
@@ -35,4 +35,13 @@ def test_ytm_par():
     # 平价债的 YTM 等于票息率
     assert abs(ytm_from_price(100, 0.05, 2, 100.0) - 0.05) < 1e-8
 
-    
+def test_bond_price_from_curve_matches_list_version():
+    # 同一条曲线，两种接口，价格必须一致
+    rates = [0.040, 0.042, 0.045, 0.048]
+    c = Curve([0.5, 1.0, 1.5, 2.0], rates)
+    assert abs(bond_price_from_curve(100, 0.05, 2, c) - bond_price(100, 0.05, 2, rates)) < 1e-9
+
+def test_bond_price_from_curve_par():
+    # 平坦曲线、票息等于利率 → 价格 100
+    c = Curve([0.5, 1.0, 1.5, 2.0], [0.05] * 4)
+    assert abs(bond_price_from_curve(100, 0.05, 2, c) - 100.0) < 1e-9
