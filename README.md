@@ -44,6 +44,7 @@ Repricing the 1y and 1.5y par bonds off the bootstrapped curve returns
 | 10 | 5.100 | 5.129 | 2.9 bp |
 | 20 | 5.480 | 5.666 | 18.6 bp |
 | 30 | 5.430 | 5.503 | 7.3 bp |
+
 ![Par vs bootstrapped zero curve](docs/bootstrap.png)
 
 The gap widens over the steep 10y–20y segment and narrows over the inverted
