@@ -1,4 +1,5 @@
 import pandas as pd
+from fire.curve import Curve
 
 # FRED 代码 → 期限（年）
 FRED_SERIES = {
@@ -23,4 +24,4 @@ def fetch_treasury_curve():
     """从 FRED 拉最新一天完整的国债收益率曲线。"""
     df = pd.read_csv(FRED_URL, na_values=".")   # 读网上的 CSV，"." 当缺失
     row = df.dropna().iloc[-1]                  # 丢掉有缺失的行，取最后一行
-    return _row_to_curve(row)
+    return Curve.from_dict(_row_to_curve(row))

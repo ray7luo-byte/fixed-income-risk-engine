@@ -22,3 +22,19 @@ class Curve:
     def df(self,t):
         from fire.pricing import discount_factor
         return discount_factor(self.rate(t),t,"semi")
+    
+def bootstrap_zero_curve(par_curve,max_years=30):
+    from fire.pricing import zero_rate
+    """Bootstrap a zero curve from a par curve (dict of tenor: par rate)."""
+    tenors=[]
+    zero_rates=[]
+    S=0.0
+    for i in range(1,int((max_years*2)+1)):
+        t=i/2
+        c=par_curve.rate(t)
+        d=(1-c/2*S)/(1+c/2)
+        z=zero_rate(d,t,"semi")
+        S+=d
+        tenors.append(t)
+        zero_rates.append(z)
+    return Curve(tenors,zero_rates)
